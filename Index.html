@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Digital Taquería Las Brasas</title>
+    <!-- Carga de Tailwind CSS para estilos responsivos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de la fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8; /* Fondo muy claro */
+        }
+        /* Color principal de la marca (rojo fuerte: brasas) */
+        .brand-red {
+            background-color: #d90000;
+        }
+        .text-brand-red {
+            color: #d90000;
+        }
+        /* Nuevo color: Azul Marino Oscuro (de la carta original) */
+        .brand-navy {
+            background-color: #0e223c;
+        }
+        .text-brand-navy {
+            color: #0e223c;
+        }
+
+        /* Estilo para el contenedor del menú para evitar saltos de diseño (CLS) */
+        #menu-content {
+            min-height: 50vh; 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Encabezado Fijo (Color Azul Marino) -->
+    <header class="brand-navy text-white shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center">
+            <h1 class="text-3xl font-extrabold tracking-tight">TAQUERÍA LAS BRASAS</h1>
+            <p class="text-sm italic mt-1 sm:mt-0">Iguala Guerrero</p>
+        </div>
+    </header>
+
+    <!-- Contenido Principal: Desplegable y Menú -->
+    <main class="max-w-7xl mx-auto p-4 pt-6 flex flex-col gap-6 flex-grow">
+
+        <!-- Menú Desplegable de Categorías (Optimizado para móvil y espacio minimizado) -->
+        <div class="w-full mx-auto bg-white rounded-xl shadow-md p-2 mb-3 sm:max-w-xl">
+            <label for="category-select" class="block text-center text-sm font-medium mb-1 text-brand-navy">
+                Ver Categoría:
+            </label>
+            <select id="category-select" class="w-full py-2 px-3 border border-gray-300 rounded-lg shadow-inner text-base font-semibold text-gray-800 focus:ring-2 focus:ring-brand-navy focus:border-brand-navy appearance-none cursor-pointer transition duration-150 ease-in-out">
+                <!-- Las opciones se generarán con JS -->
+            </select>
+        </div>
+
+
+        <!-- Contenedor del Menú de Comida -->
+        <section class="w-full bg-white rounded-xl shadow-lg p-6">
+            <!-- Título que solo se usa para la opción de categoría individual -->
+            <h2 id="current-category-title" class="hidden text-3xl font-bold mb-6 border-b-2 border-brand-red pb-2">
+                Tacos
+            </h2>
+            <div id="menu-content" class="space-y-4">
+                <!-- El contenido se renderizará con JS -->
+                <p class="text-gray-500 text-center py-12">Cargando menú...</p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer con información de contacto/redes sociales (Color Azul Marino) -->
+    <footer class="bg-gray-100 mt-8 p-4 text-center text-sm text-gray-600 border-t">
+        <p class="font-bold mb-1 text-brand-navy">Síguenos en Redes</p>
+        <p class="flex items-center justify-center">
+            <!-- Icono de Facebook simple (utilizando SVG) -->
+            <svg class="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 11h2v-3a4 4 0 00-4-4h-2a4 4 0 00-4 4v3h-2v4h2v8h4v-8h2l1-4z"/>
+            </svg>
+            <a href="https://facebook.com/TaqueriaLasBrasasIguala" target="_blank" class="hover:underline text-brand-navy font-medium">
+                @TaqueriaLasBrasasIguala
+            </a>
+        </p>
+    </footer>
+
+    <!-- Script de Datos y Lógica -->
+    <script>
+        // Definición de los datos del menú (Digitalización de la imagen)
+        const menuData = [
+            { category: "Tacos", items: [
+                { name: "Al Carbón", price: 40 },
+                { name: "Bistec", price: 50 },
+                { name: "Cecina", price: 50 },
+                { name: "Longaniza", price: 40 },
+                { name: "Arrachera", price: 60 },
+                { name: "Con Queso", price: 10, note: "Extra" }
+            ]},
+            { category: "Gringas", items: [
+                { name: "Normal", price: 30 },
+                { name: "Doble", price: 55 },
+                { name: "Champiqueso", price: 30 },
+                { name: "Choriqueso", price: 30 },
+                { name: "Megagringa", price: 60 },
+                { name: "Arrachera", price: 35 }
+            ]},
+            { category: "Ensaladas", items: [
+                { name: "Sencilla", price: 80 },
+                { name: "Carne al Carbón", price: 90 },
+                { name: "Bistec / Cecina", price: 110 },
+                { name: "Arrachera", price: 120 },
+                { name: "Pan Extra", price: 15 }
+            ]},
+            { category: "Queso Fundido", items: [
+                { name: "Sencilla", price: 90 },
+                { name: "Bistec / Cecina", price: 110 },
+                { name: "Arrachera", price: 120 }
+            ]},
+            { category: "Extras", items: [
+                { name: "Ord. Cebolla", price: 15 },
+                { name: "Ord. Semilla", price: 15 }
+            ]},
+            { category: "Picaditas", items: [
+                { name: "Sencilla", price: 35 },
+                { name: "Carne al Carbón", price: 60 },
+                { name: "Cecina", price: 70 },
+                { name: "Bistec", price: 70 },
+                { name: "Longaniza", price: 60 },
+                { name: "Arrachera", price: 70 }
+            ]},
+            { category: "Tortas", items: [
+                { name: "Al Carbón", price: 50 },
+                { name: "Bistec", price: 60 },
+                { name: "Cecina", price: 60 },
+                { name: "Arrachera", price: 75 },
+                { name: "Megatorta", price: 70 }
+            ]},
+            { category: "Especiales", items: [
+                { name: "Parrillada", price: 95 },
+                { name: "Alambre", price: 95 },
+                { name: "Fortachón", price: 100 },
+                { name: "Pastor c/Queso", price: 100 },
+                { name: "Kilo de Carne", price: 420 }
+            ]},
+            { category: "Volcán", items: [
+                { name: "Carne al Carbón 1 Pza", price: 18 },
+                { name: "Bistec / Cecina 1 Pza", price: 21 },
+                { name: "Arrachera", price: 25 }
+            ]},
+            { category: "Bebidas", items: [
+                { name: "Refresco", price: 25 },
+                { name: "Refresco 600ml", price: 30 },
+                { name: "Cerveza", price: 40 },
+                { name: "Modelo Especial", price: 45 },
+                { name: "Botella de Agua 1 Lt", price: 20 },
+                { name: "Agua 1/2 Lt", price: 18 },
+                { name: "Agua 1 Lt", price: 30 }
+            ]}
+        ];
+
+        // Categorías que tienen el encabezado en color Rojo (Columna Izquierda de la carta original)
+        const redCategories = ["Tacos", "Gringas", "Ensaladas", "Queso Fundido", "Extras"];
+        
+        let currentCategory = "Tacos"; // Categoría inicial
+
+        const menuContent = document.getElementById('menu-content');
+        const categoryTitle = document.getElementById('current-category-title');
+        const categorySelect = document.getElementById('category-select'); 
+
+        /**
+         * Genera el HTML para un solo elemento del menú.
+         * @param {object} item - El objeto del elemento del menú.
+         * @returns {string} El fragmento HTML.
+         */
+        function renderMenuItem(item) {
+            const priceFormatted = `$${item.price.toFixed(0)}`;
+            const noteHtml = item.note ? `<span class="text-sm font-medium text-gray-500 ml-2">(${item.note})</span>` : '';
+
+            return `
+                <div class="flex justify-between items-start border-b border-gray-200 py-3 hover:bg-gray-50 rounded-md px-2 transition duration-150 ease-in-out">
+                    <!-- Nombre y Nota -->
+                    <div class="flex flex-col flex-grow pr-4">
+                        <span class="text-lg font-semibold text-gray-900">${item.name}</span>
+                    </div>
+                    <!-- Precio (Color de texto rojo para simular las brasas) -->
+                    <div class="flex-shrink-0 text-right">
+                        <span class="text-xl font-extrabold text-brand-red">${priceFormatted}</span>
+                        ${noteHtml}
+                    </div>
+                </div>
+            `;
+        }
+        
+        /**
+         * Renderiza el contenido del menú, ya sea una sola categoría o todas.
+         */
+        function renderMenuContent() {
+            // Limpia el contenido antes de renderizar
+            menuContent.innerHTML = '';
+            
+            // Si la categoría es "Todas", ocultamos el título principal y renderizamos todo.
+            if (currentCategory === "Todas") {
+                categoryTitle.classList.add('hidden');
+                
+                menuData.forEach(data => {
+                    // 1. Determina el color del título de la sub-categoría
+                    const isRedCategory = redCategories.includes(data.category);
+                    const titleColorClass = isRedCategory ? 'text-brand-red' : 'text-brand-navy';
+
+                    // 2. Título de la sub-categoría con su color
+                    let categoryHtml = `
+                        <h3 class="text-2xl font-bold mt-6 mb-4 pb-1 border-b ${titleColorClass}">
+                            ${data.category}
+                        </h3>
+                    `;
+                    
+                    // 3. Renderiza los ítems de esa sub-categoría
+                    data.items.forEach(item => {
+                        categoryHtml += renderMenuItem(item);
+                    });
+                    
+                    // Agrega el bloque completo al contenedor
+                    menuContent.innerHTML += categoryHtml;
+                });
+
+            } else {
+                // Si es una sola categoría, mostramos el título principal y renderizamos solo esa categoría.
+                categoryTitle.classList.remove('hidden');
+
+                const data = menuData.find(d => d.category === currentCategory);
+
+                if (!data) {
+                    menuContent.innerHTML = '<p class="text-gray-500 text-center py-12">Categoría no encontrada.</p>';
+                    categoryTitle.textContent = 'Error';
+                    return;
+                }
+
+                // 1. Determina el color del título de la categoría
+                const isRedCategory = redCategories.includes(currentCategory);
+
+                // 2. Actualiza el título y aplica la clase de color correcta
+                categoryTitle.textContent = data.category;
+                categoryTitle.classList.remove('text-brand-red', 'text-brand-navy');
+                categoryTitle.classList.add(isRedCategory ? 'text-brand-red' : 'text-brand-navy');
+
+                let html = '';
+                data.items.forEach(item => {
+                    html += renderMenuItem(item);
+                });
+
+                menuContent.innerHTML = html;
+            }
+        }
+        
+        /**
+         * Maneja el cambio de categoría cuando el usuario selecciona una opción del desplegable.
+         */
+        function handleCategoryChange(e) {
+            const newCategory = e.target.value;
+            if (currentCategory !== newCategory) {
+                currentCategory = newCategory;
+                renderMenuContent();
+            }
+        }
+
+        /**
+         * Crea y configura el menú desplegable (Select).
+         */
+        function setupCategorySelect() {
+            categorySelect.addEventListener('change', handleCategoryChange);
+            
+            // Agregar la opción "Ver Todas" primero
+            const allOption = document.createElement('option');
+            allOption.value = "Todas";
+            allOption.textContent = "Ver Todas";
+            categorySelect.appendChild(allOption);
+
+            // Agregar las demás categorías
+            menuData.forEach(data => {
+                const option = document.createElement('option');
+                option.value = data.category;
+                option.textContent = data.category;
+                categorySelect.appendChild(option);
+            });
+
+            // Establece la categoría inicial en el desplegable
+            categorySelect.value = currentCategory;
+        }
+
+        // Inicialización de la aplicación
+        window.onload = function() {
+            setupCategorySelect(); // Configura el desplegable (incluyendo "Ver Todas")
+            renderMenuContent(); // Carga el contenido inicial (Tacos por defecto, si no se cambia)
+        };
+    </script>
+</body>
+</html>
+
