@@ -13,8 +13,8 @@ try {
                     'MUSE',
                     h('span', { className: 'text-purple-500' }, 'AI')
                 ]),
-                h('p', { className: 'text-slate-400 text-lg' }, 'Visual Narrative & Audio Synthesis Engine'),
-                h('div', { className: 'mt-2 text-xs text-slate-600 font-mono' }, 'Build: REACT-18-ESM | GEMINI-PREVIEW')
+                h('p', { className: 'text-slate-400 text-lg' }, 'Motor de Narrativa Visual y Síntesis de Audio'),
+                h('div', { className: 'mt-2 text-xs text-slate-600 font-mono' }, 'Versión: REACT-18-ESM | GEMINI-PREVIEW')
             ]),
             h(StoryWriter)
         ]);

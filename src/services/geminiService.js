@@ -15,14 +15,16 @@ export class GeminiService {
         const model = this.genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
         const characterContext = characterName
-            ? `The protagonist of the story is ${characterName}.`
-            : "Create a protagonist suitable for the scene.";
+            ? `El protagonista de la historia es ${characterName}.`
+            : "Crea un protagonista adecuado para la escena.";
 
+        // Prompt translated to request Mexican Spanish
         const prompt = `
-            Analyze this image and write a short, atmospheric story opening set in this world.
+            Analiza esta imagen y escribe el inicio de una historia corta y atmosférica ambientada en este mundo.
             ${characterContext}
-            The tone should be immersive. Keep it under 200 words.
-            Output ONLY the story text.
+            El tono debe ser inmersivo. Mantenlo en menos de 200 palabras.
+            Escribe en Español de México (Latinoamérica).
+            Salida SOLO el texto de la historia.
         `;
 
         const result = await model.generateContent([
@@ -33,22 +35,17 @@ export class GeminiService {
         return result.response.text();
     }
 
-    async generateSpeech(text, voice = "en-US-Journey-F") {
+    async generateSpeech(text, voice = "es-MX-Standard-A") {
         /*
             Implements Text-to-Speech using Google Cloud TTS API.
-            This allows us to get a real AudioBuffer to convert to MP3 client-side,
-            fulfilling the requirement for "Expressive AI Voice" and the "Audio Pipeline".
-
-            Note: This endpoint shares the same API Key space as Gemini in Google AI Studio
-            for many users, or requires a Cloud Key. We assume the user provides a key
-            with 'cloud-text-to-speech' or generic AI Studio permissions.
+            Defaults to Spanish (Mexico) voices.
         */
 
         const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${this.apiKey}`;
 
         const payload = {
             input: { text: text },
-            voice: { languageCode: "en-US", name: voice },
+            voice: { languageCode: "es-MX", name: voice },
             audioConfig: { audioEncoding: "LINEAR16" } // Request PCM-like (WAV container) for easier decoding
         };
 
