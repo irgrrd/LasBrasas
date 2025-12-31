@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MuseAI - Motor Narrativo Generativo</title>
+    <title>Voces de Guerrero v3.2.1 | Motor Narrativo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <script type="importmap">
     {
         "imports": {
@@ -13,21 +13,28 @@
             "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
             "react-hyperscript": "https://esm.sh/react-hyperscript@3.2.0",
             "lamejs": "https://esm.sh/lamejs@1.2.1",
-            "@google/generative-ai": "https://esm.sh/@google/generative-ai@0.1.0"
+            "@google/generative-ai": "https://esm.sh/@google/generative-ai@0.1.0",
+            "lucide-react": "https://esm.sh/lucide-react@0.263.1"
         }
     }
     </script>
     <style>
-        body { font-family: 'Lato', sans-serif; }
-        h1, h2, h3 { font-family: 'Cinzel', serif; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
 
-        /* Custom Audio Player Styling */
-        audio::-webkit-media-controls-panel {
-            background-color: #f3f4f6;
-        }
+        /* Guerrero Palette Overrides */
+        .bg-guerrero-dark { background-color: #1a1c23; }
+        .text-guerrero-gold { color: #d4af37; }
+        .border-guerrero-gold { border-color: #d4af37; }
+
+        /* Audio Player */
+        audio::-webkit-media-controls-panel { background-color: #334155; }
+        audio::-webkit-media-controls-play-button { background-color: #d4af37; border-radius: 50%; }
+        audio::-webkit-media-controls-current-time-display { color: #fff; }
+        audio::-webkit-media-controls-time-remaining-display { color: #fff; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen">
+<body class="min-h-screen selection:bg-yellow-500 selection:text-black">
     <div id="root"></div>
     <script type="module" src="./src/main.js"></script>
 </body>
